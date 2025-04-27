@@ -3,14 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calculator Popriri Salariu</title>
+  <title>Calculator Popriri Salariu Simplificat</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    /* === Stiluri CSS  === */
     :root {
       --primary-color: #0056b3;
-      --secondary-color: #6c757d;
+      --secondary-color: #6c757d; /* Gri pentru buton reset outline */
       --background-light: #f8f9fa;
       --background-white: #ffffff;
       --text-color: #333;
@@ -19,11 +20,11 @@
       --error-bg: #f8d7da;
       --error-text: #721c24;
       --gradient-text: linear-gradient(90deg, #00C7C7 0%, #7BFD80 97.37%);
-      --gradient-green: #7BFD80;
+      --gradient-green: #7BFD80; /* Culoarea verde din gradient */
       --border-radius: 8px;
       --input-padding: 0.75rem;
       --element-spacing: 1rem;
-      --button-sm-padding: 0.5rem 1rem;
+      --button-sm-padding: 0.5rem 1rem; /* Pastram padding mai mic pt butoane simple */
     }
 
     body {
@@ -58,7 +59,7 @@
     fieldset {
         border: 1px solid var(--border-color);
         border-radius: var(--border-radius);
-        padding: 1rem 1.5rem;
+        padding: 1rem 1.5rem 0.5rem; /* Redus padding jos */
         margin-bottom: var(--element-spacing);
         margin-top: var(--element-spacing);
     }
@@ -78,25 +79,33 @@
       margin-bottom: 0.25rem;
       font-weight: 500;
     }
-    /* Stil pentru labelurile campurilor ascunse */
+
+    /* Etichete generale (gen Salariu Net) */
+     .top-level-label {
+       /* Stil specific daca e necesar */
+    }
+
+    /* Etichete pt inputuri conditionate (SalariuMinim, NumarBEJ) */
     .conditional-input-label {
         font-size: 0.9em;
+        font-weight: 400;
+        color: #555;
         margin-left: 1.95em; /* Aliniere sub checkbox aprox */
         margin-top: -0.5rem; /* Apropie de checkbox */
         margin-bottom: 0.25rem;
+    }
+     /* Etichete pentru inputurile de sold */
+    .sold-input-label {
+        font-size: 0.9em;
         font-weight: 400;
+        color: #555;
+        margin-left: 0; /* Aliniere normala */
+        margin-top: 0.5rem; /* Spatiu fata de checkboxul principal (main-checkbox-container) */
+        margin-bottom: 0.25rem;
     }
-    .conditional-input {
-        margin-left: 1.95em; /* Aliniere sub checkbox aprox */
-        width: calc(100% - 1.95em); /* Ajustare latime */
-        margin-top: 0;
-        margin-bottom: var(--element-spacing);
-    }
-
 
     input[type="number"],
     select {
-      /* margin-bottom: var(--element-spacing); <- scos de aici, aplicat individual unde e nevoie */
       padding: var(--input-padding);
       width: 100%;
       border-radius: var(--border-radius);
@@ -104,12 +113,23 @@
       box-sizing: border-box;
       font-size: 1rem;
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-    /* Adaugam margin-bottom la inputurile principale */
-    #salariu, #salariuMinimInput {
-        margin-bottom: var(--element-spacing);
+      margin-bottom: var(--element-spacing); /* Spatiu implicit sub inputuri */
     }
 
+    /* Inputuri conditionate (SalariuMinim, NumarBEJ) */
+    .conditional-input {
+        margin-left: 1.95em;
+        width: calc(100% - 1.95em);
+        margin-top: 0;
+        margin-bottom: var(--element-spacing);
+    }
+     /* Stil pentru inputurile de sold (NOU) */
+     .sold-input {
+         margin-left: 0;
+         width: 100%;
+         margin-top: 0;
+         margin-bottom: var(--element-spacing);
+     }
 
     input[type="number"]:focus,
     select:focus {
@@ -118,30 +138,29 @@
         box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.2);
     }
 
+    /* Sectiune calcul simplu */
     .simple-calc-section {
         margin-top: calc(-1 * var(--element-spacing) + 5px);
         margin-bottom: var(--element-spacing);
         padding: 0.75rem;
-        background-color: #fdfdff;
-        border: 1px dashed var(--border-color);
+        background-color: #f0f5ff; /* Fundal usor albastrui pentru distinctie */
+        border: 1px dashed var(--primary-color); /* Bordura punctata albastra */
         border-radius: var(--border-radius);
         text-align: center;
     }
-
     .simple-calc-section p {
         margin-top: 0;
         margin-bottom: 0.75rem;
         font-size: 0.9em;
-        color: var(--secondary-color);
+        color: var(--primary-color); /* Text albastru */
     }
-
     .simple-calc-buttons {
         display: flex;
         justify-content: center;
         gap: 0.75rem;
         flex-wrap: wrap;
     }
-
+    /* Butoane simple cu gradient */
     button.simple-calc-button {
       background-image: var(--gradient-text);
       color: #000;
@@ -150,15 +169,25 @@
       font-weight: 600;
       font-size: 0.9em;
       flex-grow: 0;
+      border-radius: var(--border-radius);
+      transition: opacity 0.2s ease, transform 0.1s ease; /* Adaugat transform */
     }
     button.simple-calc-button:hover {
         opacity: 0.9;
     }
+    button.simple-calc-button:active { /* Adaugat efect la click */
+        transform: scale(0.97);
+    }
+
 
     .checkbox-container {
       display: flex;
       align-items: center;
-      margin-bottom: 0.75rem; /* Redus putin spatiul */
+      margin-bottom: 0.75rem;
+    }
+    /* Container specific pentru checkboxul principal al unei sectiuni */
+    .main-checkbox-container {
+        margin-bottom: 0.5rem;
     }
 
     .checkbox-container input[type="checkbox"] {
@@ -168,7 +197,7 @@
       width: 1.2em;
       cursor: pointer;
       accent-color: var(--gradient-green);
-      flex-shrink: 0; /* Impiedica micsorarea checkboxului */
+      flex-shrink: 0;
     }
 
     .checkbox-container label {
@@ -177,17 +206,14 @@
         cursor: pointer;
         flex-grow: 1;
     }
+     /* Stil pentru eticheta checkboxului principal */
+     .main-checkbox-container label {
+         font-weight: 500;
+     }
 
-    .hidden {
-        display: none;
-    }
-    input:disabled, label.disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-    }
-    label.disabled {
-        display: inline-block;
-    }
+    .hidden { display: none; }
+    input:disabled, label.disabled { opacity: 0.6; cursor: not-allowed; }
+    label.disabled { display: inline-block; }
 
     .button-group {
         display: flex;
@@ -195,6 +221,7 @@
         margin-top: 1.5rem;
     }
 
+    /* Stil general butoane (pt cele mari) */
     button {
       padding: var(--input-padding) 1.5rem;
       border-radius: var(--border-radius);
@@ -203,24 +230,21 @@
       cursor: pointer;
       transition: all 0.2s ease;
       flex-grow: 1;
-      border: 2px solid transparent;
+      border: 2px solid transparent; /* Spatiu pt border la cel secundar */
       box-sizing: border-box;
     }
 
-    button:hover {
-        opacity: 0.9;
-    }
+     button:active { transform: scale(0.98); }
 
-    button:active {
-        transform: scale(0.98);
-    }
-
+    /* Buton primar (mare) */
     button.primary {
       background-image: var(--gradient-text);
       color: #000;
       border: none;
     }
+    button.primary:hover { opacity: 0.9; }
 
+    /* Buton secundar (mare) - Outline */
     button.secondary {
       background-color: transparent;
       color: var(--secondary-color);
@@ -230,9 +254,10 @@
         background-color: var(--secondary-color);
         color: var(--background-white);
         border-color: var(--secondary-color);
-        opacity: 1;
+        opacity: 1; /* Resetam opacity de la hoverul general */
     }
 
+    /* Zona rezultate */
     .result {
       margin-top: 1.5rem;
       padding: 1rem 1.5rem;
@@ -240,106 +265,159 @@
       border-left: 5px solid var(--primary-color);
       border-radius: 0 var(--border-radius) var(--border-radius) 0;
     }
-
     .result.error {
       background-color: var(--error-bg);
       color: var(--error-text);
       border-left-color: var(--error-text);
     }
+    .result strong { color: var(--text-color); font-weight: 600; }
+    .result.error strong { color: var(--error-text); }
+    .result .amount { font-weight: 600; color: #0056b3; }
+    .result.error .amount { color: var(--error-text); }
+    .result ul { padding-left: 20px; margin-top: 0.5rem; margin-bottom: 0; }
+    .result li { font-size: 0.95em; }
 
-    .result strong {
-        color: var(--text-color);
-        font-weight: 600;
-    }
-    .result.error strong {
-         color: var(--error-text);
+    /* Stil nota salariu minim */
+     .salariu-minim-note {
+         font-size: 0.8em;
+         color: #777;
+         margin-top: -0.8rem;
+         margin-bottom: var(--element-spacing);
+         /* Aliniere sub inputul conditional */
+         padding-left: 1.95em;
+     }
+
+     /* Stil linkuri legislatie */
+     .legislatie-links {
+         margin-top: 2rem;
+         text-align: center;
+         font-size: 0.85em;
+         color: #555;
+     }
+      .legislatie-links a { color: var(--primary-color); text-decoration: none; }
+      .legislatie-links a:hover { text-decoration: underline; }
+
+      /* Clasa pentru evidentiere eroare input */
+    input.input-error {
+        border-color: var(--error-text) !important;
+        background-color: var(--error-bg);
     }
 
-    .result .amount {
-        font-weight: 600;
-        color: #0056b3;
+    /* Stil pentru Tooltips (adăugat) */
+    .tooltip {
+        position: relative;
+        display: inline-block;
+        /* border-bottom: 1px dotted black; */ /* Eliminat border */
+        cursor: help;
+        margin-left: 5px;
+        font-weight: bold;
+        color: var(--primary-color);
+        font-size: 0.9em; /* Mărime mai mică pentru icon */
     }
-     .result.error .amount {
-        color: var(--error-text);
+    .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 220px; /* Lățime ajustată */
+        background-color: #555;
+        color: #fff;
+        text-align: left; /* Aliniere stânga */
+        border-radius: 6px;
+        padding: 8px 12px; /* Padding ajustat */
+        position: absolute;
+        z-index: 1;
+        bottom: 130%; /* Poziționare ușor mai sus */
+        left: 50%;
+        margin-left: -110px; /* Jumătate din lățime pentru centrare */
+        opacity: 0;
+        transition: opacity 0.3s;
+        font-size: 0.85em;
+        font-weight: normal;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Adăugat umbră */
     }
-
-     /* Stil pentru lista de distributie */
-    .result ul {
-        padding-left: 20px;
-        margin-top: 0.5rem;
-        margin-bottom: 0;
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
     }
-    .result li {
-        font-size: 0.95em;
-    }
-
   </style>
 </head>
 <body>
 
   <div class="container">
-    <h2>Calculator Salariu </h2>
+    <h2>Calculator Popriri Salariu</h2>
 
-    <label for="salariu">Suma (RON):</label>
-    <input type="number" id="salariu" placeholder="Ex: 3500">
+    <label for="salariu" class="top-level-label">Suma (RON):</label>
+    <input type="number" id="salariu" placeholder="Ex: 4500">
 
     <div class="simple-calc-section">
         <p>Sau calculează rapid o fracție din salariu:</p>
         <div class="simple-calc-buttons">
             <button class="simple-calc-button" onclick="calculeazaSimplu('1/2')">Calculează 1/2</button>
             <button class="simple-calc-button" onclick="calculeazaSimplu('1/3')">Calculează 1/3</button>
-            <button class="simple-calc-button" onclick="calculeazaSimplu('2/3')">Calculează 2/3</button>
         </div>
     </div>
 
     <fieldset>
         <legend>Calcul Popriri Active</legend>
 
-        <div class="checkbox-container">
+        <div class="checkbox-container main-checkbox-container">
           <input type="checkbox" id="bifaSalariuMinim">
-          <label for="bifaSalariuMinim">Se aplică protecția salariului minim / Bază calcul specială?</label>
+          <label for="bifaSalariuMinim">Se aplică protecția salariului minim?
+            <span class="tooltip">[?]
+                <span class="tooltiptext">Activând această opțiune, calculul va asigura că vă rămâne cel puțin jumătate din salariul minim net pe economie (introdus mai jos), conform Codului de Procedură Civilă.</span>
+            </span>
+          </label>
         </div>
         <div id="salariuMinimContainer" class="hidden">
           <label for="salariuMinimInput" class="conditional-input-label">Valoare Salariu Minim Net pe Economie (RON):</label>
-          <input type="number" id="salariuMinimInput" value="2574" class="conditional-input"> </div>
+          <input type="number" id="salariuMinimInput" placeholder="Ex: 2374 (Verificați valoarea curentă!)" class="conditional-input">
+          <p class="salariu-minim-note">Notă: Valoarea se modifică periodic. Introduceți valoarea NETĂ actuală. Verificați sursele oficiale (ex: în Monitorul Oficial).</p>
+        </div>
+        <hr style="border: none; border-top: 1px dashed var(--border-color); margin: 1rem 0;">
 
-        <div class="checkbox-container">
+        <div class="checkbox-container main-checkbox-container">
           <input type="checkbox" id="anafPresent">
           <label for="anafPresent">Există poprire ANAF?</label>
         </div>
         <div id="anafDetailsContainer" class="hidden">
-            <div class="checkbox-container">
-                <input type="checkbox" id="anafIntegral">
-                <label for="anafIntegral">Datoria ANAF este integral acoperită?</label>
+            <label for="soldTotalAnafInput" class="sold-input-label">Sold Total Datorat ANAF (RON, opțional):
+                <span class="tooltip">[?]
+                    <span class="tooltiptext">Introduceți suma totală rămasă de plată către ANAF. Dacă datoria este mai mică decât suma maximă ce poate fi poprită legal (1/3 sau 1/2 din baza de calcul), se va reține doar acest sold. Lăsați gol dacă nu cunoașteți soldul exact sau dacă acesta este mare.</span>
+                </span>
+            </label>
+            <input type="number" id="soldTotalAnafInput" placeholder="Lasă gol dacă soldul e mare" class="sold-input">
             </div>
-            <div id="sumaIntegralAnafContainer" class="hidden">
-                 <label for="sumaIntegralAnafInput" class="conditional-input-label">Suma necesară pt. acoperire integrală ANAF (RON):</label>
-                 <input type="number" id="sumaIntegralAnafInput" placeholder="Ex: 500" class="conditional-input">
-            </div>
-        </div>
-        <div class="checkbox-container">
+        <hr style="border: none; border-top: 1px dashed var(--border-color); margin: 1rem 0;">
+
+        <div class="checkbox-container main-checkbox-container">
           <input type="checkbox" id="primariePresent">
           <label for="primariePresent">Există poprire Primărie/Impozite Locale?</label>
         </div>
         <div id="primarieDetailsContainer" class="hidden">
-            <div class="checkbox-container">
-                <input type="checkbox" id="primarieIntegral">
-                <label for="primarieIntegral">Datoria Primărie este integral acoperită?</label>
-            </div>
-             <div id="sumaIntegralPrimarieContainer" class="hidden">
-                 <label for="sumaIntegralPrimarieInput" class="conditional-input-label">Suma necesară pt. acoperire integrală Primărie (RON):</label>
-                 <input type="number" id="sumaIntegralPrimarieInput" placeholder="Ex: 300" class="conditional-input">
-            </div>
-        </div>
-         <div class="checkbox-container">
+            <label for="soldTotalPrimarieInput" class="sold-input-label">Sold Total Datorat Primărie (RON, opțional):
+                <span class="tooltip">[?]
+                     <span class="tooltiptext">Introduceți suma totală rămasă de plată către Primărie/Taxe Locale. Dacă datoria este mai mică decât suma maximă ce poate fi poprită legal, se va reține doar acest sold (după eventuala alocare către ANAF). Lăsați gol dacă nu cunoașteți soldul sau e mare.</span>
+                </span>
+            </label>
+            <input type="number" id="soldTotalPrimarieInput" placeholder="Lasă gol dacă soldul e mare/necunoscut" class="sold-input">
+             </div>
+        <hr style="border: none; border-top: 1px dashed var(--border-color); margin: 1rem 0;">
+
+        <div class="checkbox-container main-checkbox-container">
           <input type="checkbox" id="bejPresent">
           <label for="bejPresent">Există popriri BEJ?</label>
         </div>
-         <div id="bejDetailsContainer" class="hidden">
+        <div id="bejDetailsContainer" class="hidden">
+            <label for="soldTotalBejInput" class="sold-input-label">Sold Total Datorat BEJ (toate dosarele) (RON, opțional):
+                 <span class="tooltip">[?]
+                     <span class="tooltiptext">Introduceți suma totală rămasă de plată pentru TOATE dosarele de executare BEJ. Dacă datoria cumulată este mai mică decât suma maximă ce poate fi poprită legal, se va reține doar acest sold (după eventualele alocări ANAF/Primărie). Lăsați gol dacă nu cunoașteți soldul sau e mare.</span>
+                </span>
+            </label>
+            <input type="number" id="soldTotalBejInput" placeholder="Lasă gol dacă soldul e mare" class="sold-input">
+
             <label for="numarBej" class="conditional-input-label">Număr dosare BEJ active:</label>
             <input type="number" id="numarBej" value="1" min="1" class="conditional-input">
         </div>
-         </fieldset>
+
+    </fieldset>
 
     <div class="button-group">
         <button onclick="calculeaza()" class="primary">Calculează Popriri</button>
@@ -347,6 +425,17 @@
     </div>
 
     <div id="rezultat" class="result" style="display:none;"></div>
+
+    <div class="legislatie-links">
+        <p>
+            <small>
+                Consultați legislația la zi: <br>
+                <a href="https://coduri.juridice.ro/codul-de-procedura-civila/index.php/2019/09/24/art-729-limitele-urmaririi-veniturilor-banesti/" target="_blank" rel="noopener noreferrer">Noul Cod de Procedură Civilă (Art. 729 - Limitele urmăririi veniturilor bănești)</a> |
+                <a href="https://static.anaf.ro/static/10/Anaf/cod_procedura/Cod_Procedura_Fiscala_2023.htm" target="_blank" rel="noopener noreferrer">Codul de Procedură Fiscală (Titlul VII, Cap. X - Executarea Silită)</a>
+            </small>
+        </p>
+    </div>
+
   </div>
 
   <script>
@@ -355,69 +444,54 @@
     const bifaSalariuMinimCheckbox = document.getElementById("bifaSalariuMinim");
     const salariuMinimContainer = document.getElementById("salariuMinimContainer");
     const salariuMinimInput = document.getElementById("salariuMinimInput");
-
     const anafPresentCheckbox = document.getElementById("anafPresent");
-    const anafDetailsContainer = document.getElementById("anafDetailsContainer"); // Container nou
-    const anafIntegralCheckbox = document.getElementById("anafIntegral");
-    const sumaIntegralAnafContainer = document.getElementById("sumaIntegralAnafContainer"); // Container nou
-    const sumaIntegralAnafInput = document.getElementById("sumaIntegralAnafInput"); // Input nou
-
+    const anafDetailsContainer = document.getElementById("anafDetailsContainer");
+    const soldTotalAnafInput = document.getElementById("soldTotalAnafInput");
     const primariePresentCheckbox = document.getElementById("primariePresent");
-    const primarieDetailsContainer = document.getElementById("primarieDetailsContainer"); // Container nou
-    const primarieIntegralCheckbox = document.getElementById("primarieIntegral");
-    const sumaIntegralPrimarieContainer = document.getElementById("sumaIntegralPrimarieContainer"); // Container nou
-    const sumaIntegralPrimarieInput = document.getElementById("sumaIntegralPrimarieInput"); // Input nou
-
+    const primarieDetailsContainer = document.getElementById("primarieDetailsContainer");
+    const soldTotalPrimarieInput = document.getElementById("soldTotalPrimarieInput");
     const bejPresentCheckbox = document.getElementById("bejPresent");
     const bejDetailsContainer = document.getElementById("bejDetailsContainer");
+    const soldTotalBejInput = document.getElementById("soldTotalBejInput");
     const numarBejInput = document.getElementById("numarBej");
-
     const rezultatDiv = document.getElementById("rezultat");
-    // ===================================
+    // Lista cu toate inputurile pentru resetare highlight 
+    const allInputs = [salariuInput, salariuMinimInput, numarBejInput, soldTotalAnafInput, soldTotalPrimarieInput, soldTotalBejInput];
+    // =================================================================
 
     // === Functia toggleConditionalFields ===
     function toggleConditionalFields() {
-        // Salariu minim
         const showSalariuMinim = bifaSalariuMinimCheckbox.checked;
         salariuMinimContainer.classList.toggle('hidden', !showSalariuMinim);
         salariuMinimInput.disabled = !showSalariuMinim;
+        // Resetare valoare salariu minim daca se debifeaza pentru a evita folosirea accidentala
+        if (!showSalariuMinim) salariuMinimInput.value = '';
 
-        // Detalii ANAF
         const showAnafDetails = anafPresentCheckbox.checked;
         anafDetailsContainer.classList.toggle('hidden', !showAnafDetails);
-        anafIntegralCheckbox.disabled = !showAnafDetails;
-        if (!showAnafDetails) anafIntegralCheckbox.checked = false; // Uncheck integral if ANAF is unchecked
+        soldTotalAnafInput.disabled = !showAnafDetails;
+        if (!showAnafDetails) { /* anafIntegralCheckbox.checked = false; */ soldTotalAnafInput.value = ''; } // Eliminat referinta la anafIntegralCheckbox
 
-        const showSumaIntegralAnaf = showAnafDetails && anafIntegralCheckbox.checked;
-        sumaIntegralAnafContainer.classList.toggle('hidden', !showSumaIntegralAnaf);
-        sumaIntegralAnafInput.disabled = !showSumaIntegralAnaf;
-        if(!showSumaIntegralAnaf) sumaIntegralAnafInput.value = ''; // Clear value when hidden
-
-        // Detalii Primarie
+    
         const showPrimarieDetails = primariePresentCheckbox.checked;
         primarieDetailsContainer.classList.toggle('hidden', !showPrimarieDetails);
-        primarieIntegralCheckbox.disabled = !showPrimarieDetails;
-        if (!showPrimarieDetails) primarieIntegralCheckbox.checked = false; // Uncheck integral if Primarie is unchecked
+        soldTotalPrimarieInput.disabled = !showPrimarieDetails;
+        if (!showPrimarieDetails) { /* primarieIntegralCheckbox.checked = false; */ soldTotalPrimarieInput.value = ''; } // Eliminat referinta la primarieIntegralCheckbox
 
-        const showSumaIntegralPrimarie = showPrimarieDetails && primarieIntegralCheckbox.checked;
-        sumaIntegralPrimarieContainer.classList.toggle('hidden', !showSumaIntegralPrimarie);
-        sumaIntegralPrimarieInput.disabled = !showSumaIntegralPrimarie;
-         if(!showSumaIntegralPrimarie) sumaIntegralPrimarieInput.value = ''; // Clear value when hidden
+       
 
-        // Detalii BEJ
         const showBejDetails = bejPresentCheckbox.checked;
         bejDetailsContainer.classList.toggle('hidden', !showBejDetails);
+        soldTotalBejInput.disabled = !showBejDetails;
         numarBejInput.disabled = !showBejDetails;
-        if (!showBejDetails) numarBejInput.value = 1;
+        if (!showBejDetails) { numarBejInput.value = 1; soldTotalBejInput.value = ''; }
     }
-    // =================================================
+    // =====================================================================
 
     // Event listeners 
     bifaSalariuMinimCheckbox.addEventListener('change', toggleConditionalFields);
     anafPresentCheckbox.addEventListener('change', toggleConditionalFields);
-    anafIntegralCheckbox.addEventListener('change', toggleConditionalFields); // Added listener
     primariePresentCheckbox.addEventListener('change', toggleConditionalFields);
-    primarieIntegralCheckbox.addEventListener('change', toggleConditionalFields); // Added listener
     bejPresentCheckbox.addEventListener('change', toggleConditionalFields);
     document.addEventListener('DOMContentLoaded', toggleConditionalFields);
 
@@ -426,37 +500,29 @@
         rezultatDiv.innerHTML = `<strong>Eroare:</strong> ${message}`;
         rezultatDiv.style.display = "block";
         rezultatDiv.classList.add("error");
-        rezultatDiv.classList.remove("success");
-        // Evidentiere camp optionala
+        rezultatDiv.classList.remove("success"); // Asigură că nu are și clasa success
+        allInputs.forEach(input => { if (input) input.classList.remove('input-error'); }); // Reseteaza intai toate
         if (fieldId) {
             const field = document.getElementById(fieldId);
-            if (field) {
-                field.style.borderColor = 'red';
-                 // Resetare dupa un timp
-                 setTimeout(() => { field.style.borderColor = ''; }, 3000);
-            }
+            if (field) { field.classList.add('input-error'); field.focus(); } // Adaugat focus pe campul cu eroare
         }
     }
     function displaySuccess(htmlContent) {
         rezultatDiv.innerHTML = htmlContent;
         rezultatDiv.style.display = "block";
         rezultatDiv.classList.remove("error");
-        rezultatDiv.classList.add("success");
-         // Resetare border-uri la succes
-         salariuInput.style.borderColor = '';
-         if (salariuMinimInput.style) salariuMinimInput.style.borderColor = '';
-         if (numarBejInput.style) numarBejInput.style.borderColor = '';
-         if (sumaIntegralAnafInput.style) sumaIntegralAnafInput.style.borderColor = '';
-         if (sumaIntegralPrimarieInput.style) sumaIntegralPrimarieInput.style.borderColor = '';
+        rezultatDiv.classList.add("success"); // Adaugat explicit clasa success
+        allInputs.forEach(input => { if (input) input.classList.remove('input-error'); }); // Reseteaza highlight la succes
     }
 
-    // Functie Calcul Simplu
+    // === Functie Calcul Simplu  ===
     function calculeazaSimplu(fractie) {
         rezultatDiv.style.display = "none";
+        allInputs.forEach(input => { if (input) input.classList.remove('input-error'); }); // Reset highlight
+
         const salariu = parseFloat(salariuInput.value);
         if (isNaN(salariu) || salariu <= 0) {
-            displayError("Te rog introdu o sumă validă pentru salariu.", "salariu");
-            return;
+            return displayError("Te rog introdu o sumă validă pentru salariu.", "salariu");
         }
         let sumaCalculata = 0;
         let labelFractie = fractie;
@@ -464,59 +530,71 @@
             case '1/2': sumaCalculata = salariu / 2; break;
             case '1/3': sumaCalculata = salariu / 3; break;
             case '2/3': sumaCalculata = (salariu / 3) * 2; break;
-            default: displayError("Tip de fracție necunoscut."); return;
+            default: return displayError("Tip de fracție necunoscut.");
         }
-        const sumaRamasa = salariu - sumaCalculata;
+        // Folosim toLocaleString pentru formatare numere
+        const sumaCalculataFormatted = sumaCalculata.toLocaleString('ro-RO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const sumaRamasaFormatted = (salariu - sumaCalculata).toLocaleString('ro-RO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const salariuFormatted = salariu.toLocaleString('ro-RO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
         displaySuccess(`
-            <p>Calcul pentru fracția <strong>${labelFractie}</strong> din salariul de <span class="amount">${salariu.toFixed(2)} RON</span>:</p>
-            <strong>Suma calculată (${labelFractie}):</strong> <span class="amount">${sumaCalculata.toFixed(2)} RON</span><br>
-            <strong>Suma rămasă:</strong> <span class="amount">${sumaRamasa.toFixed(2)} RON</span>
+            <p>Calcul pentru fracția <strong>${labelFractie}</strong> din salariul de <span class="amount">${salariuFormatted} RON</span>:</p>
+            <strong>Suma calculată (${labelFractie}):</strong> <span class="amount">${sumaCalculataFormatted} RON</span><br>
+            <strong>Suma rămasă:</strong> <span class="amount">${sumaRamasaFormatted} RON</span>
         `);
     }
+    // ===================================================================
+
 
     // Functia determinaPlafonProcent
     function determinaPlafonProcent(config) {
         let { anaf, primarie, bej, numarBej } = config;
-        let procent = 0;
-        let explicatie = "";
-        let nonBejCount = 0;
-        if (anaf) nonBejCount++;
-        if (primarie) nonBejCount++;
-        let effectiveCount = nonBejCount;
-        let bejIsMultiple = false;
+        let procent = 0; let explicatie = ""; let nonBejCount = 0;
+        if (anaf) nonBejCount++; if (primarie) nonBejCount++;
+
+        let effectiveCount = nonBejCount; let bejIsMultiple = false;
+        let numBejValid = 1; // Default
         if (bej) {
-            const numBejValid = (!isNaN(parseInt(numarBej)) && parseInt(numarBej) >= 1) ? parseInt(numarBej) : 1;
-            if (numBejValid >= 2) {
-                effectiveCount = Math.max(2, nonBejCount + 1);
-                bejIsMultiple = true;
-            } else { effectiveCount++; }
-        }
-        if (effectiveCount === 0) {
-            procent = 0;
-            explicatie = "Niciun tip de poprire activă selectată.";
-        } else if (effectiveCount === 1) {
-            procent = 1/3;
-            explicatie = `O singură poprire/grup (BEJ=1) activă. Plafon maxim: 1/3 (${(procent * 100).toFixed(2)}%).`;
-        } else { // effectiveCount >= 2
-            procent = 0.5;
-            if (bejIsMultiple && nonBejCount === 0) {
-                 explicatie = `Poprire BEJ cu ${numarBej} dosare active (considerată multiplă). Plafon maxim: 1/2 (50.00%).`;
-            } else {
-                 explicatie = `${effectiveCount} popriri efective (tipuri/BEJ multiplu). Plafon maxim: 1/2 (50.00%).`;
+            numBejValid = (!isNaN(parseInt(numarBej)) && parseInt(numarBej) >= 1) ? parseInt(numarBej) : 1;
+            if (numBejValid >= 2) { // Considerat multiplu dacă sunt 2 sau mai multe dosare BEJ
+                 effectiveCount = Math.max(2, nonBejCount + 1); // Plafonul e 1/2 daca ai BEJ >=2 sau BEJ + alta poprire
+                 bejIsMultiple = true;
+             }
+            else { // Doar un dosar BEJ
+                 effectiveCount++;
             }
         }
+
+        if (effectiveCount === 0) {
+             procent = 0;
+             explicatie = "Nicio poprire activă selectată.";
+        } else if (effectiveCount === 1) {
+             procent = 1/3;
+             let tipPoprire = "";
+             if (anaf) tipPoprire = "ANAF";
+             else if (primarie) tipPoprire = "Primărie";
+             else if (bej) tipPoprire = "BEJ (1 dosar)";
+             explicatie = `O singură poprire (${tipPoprire}) activă. Plafon maxim legal: 1/3 (${(procent * 100).toFixed(1)}%).`;
+        } else { // effectiveCount >= 2
+             procent = 0.5; // 1/2
+             let motive = [];
+             if (anaf) motive.push("ANAF");
+             if (primarie) motive.push("Primărie");
+             if (bej) {
+                 if (bejIsMultiple) motive.push(`BEJ (${numBejValid} dosare)`);
+                 else motive.push("BEJ (1 dosar)");
+             }
+             explicatie = `${motive.join(' + ')} active. Plafon maxim legal: 1/2 (50.0%).`;
+         }
         return { procent: procent, explicatiePlafon: explicatie };
     }
 
     // === FUNCTIA CALCULEAZA (Popriri) ===
     function calculeaza() {
-        // Resetare erori
-        rezultatDiv.classList.remove("error");
+        // Resetare erori vizuale
+        rezultatDiv.classList.remove("error", "success"); // Asigură resetarea ambelor clase
         rezultatDiv.style.display = "none";
-        // Resetare highlight inputuri (se va face si in displaySuccess/Error)
-        const inputsToReset = [salariuInput, salariuMinimInput, numarBejInput, sumaIntegralAnafInput, sumaIntegralPrimarieInput];
-        inputsToReset.forEach(input => { if (input && input.style) input.style.borderColor = ''; });
-
+        allInputs.forEach(input => { if (input) input.classList.remove('input-error'); });
 
         // --- Citire Valori Inputs ---
         const salariu = parseFloat(salariuInput.value);
@@ -524,133 +602,201 @@
         const salariuMinim = aplicaRegulaSpecialaSalMin ? parseFloat(salariuMinimInput.value) : 0;
 
         const anaf = anafPresentCheckbox.checked;
-        const anafIntegral = anaf ? anafIntegralCheckbox.checked : false;
-        let sumaIntegralaAnaf = (anaf && anafIntegral) ? parseFloat(sumaIntegralAnafInput.value) : 0;
+        
 
         const primarie = primariePresentCheckbox.checked;
-        const primarieIntegral = primarie ? primarieIntegralCheckbox.checked : false;
-        let sumaIntegralaPrimarie = (primarie && primarieIntegral) ? parseFloat(sumaIntegralPrimarieInput.value) : 0;
+      
 
         const bej = bejPresentCheckbox.checked;
-        let numarBej = 1; // Valoare default daca BEJ e bifat
+        let numarBej = 1; // Valoare default
         if (bej) {
-            const parsedValue = parseInt(numarBejInput.value);
-             if (!isNaN(parsedValue) && parsedValue >= 1) { numarBej = parsedValue; }
+            const parsedNumBej = parseInt(numarBejInput.value);
+            // Folosim valoarea din input doar daca e valida, altfel ramane 1
+            if (!isNaN(parsedNumBej) && parsedNumBej >= 1) {
+                 numarBej = parsedNumBej;
+             } else {
+                 
+                 numarBejInput.value = 1; // Corectam valoarea in input
+             }
         }
 
-        // --- Validari Initiale ---
-        if (isNaN(salariu) || salariu <= 0) {
-            return displayError("Te rog introdu o sumă validă pentru salariu.", "salariu");
+        // --- Citire si Validare Solduri Optionale ---
+        // Initializam cu Infinity pentru a nu limita calculul daca nu se introduce sold
+        let soldTotalAnaf = Infinity, soldTotalPrimarie = Infinity, soldTotalBej = Infinity;
+        if (anaf) {
+            if (soldTotalAnafInput.value.trim() !== '') {
+                const parsedSold = parseFloat(soldTotalAnafInput.value);
+                // Soldul trebuie sa fie un numar pozitiv sau zero
+                if (isNaN(parsedSold) || parsedSold < 0) { return displayError("Soldul ANAF introdus trebuie să fie un număr valid (>= 0).", "soldTotalAnafInput"); }
+                soldTotalAnaf = parsedSold;
+            }
         }
-        if (aplicaRegulaSpecialaSalMin && (isNaN(salariuMinim) || salariuMinim <= 0)) {
-            return displayError("Te rog introdu o valoare validă pentru salariul minim pe economie.", "salariuMinimInput");
+        if (primarie) {
+             if (soldTotalPrimarieInput.value.trim() !== '') {
+                const parsedSold = parseFloat(soldTotalPrimarieInput.value);
+                if (isNaN(parsedSold) || parsedSold < 0) { return displayError("Soldul Primărie introdus trebuie să fie un număr valid (>= 0).", "soldTotalPrimarieInput"); }
+                soldTotalPrimarie = parsedSold;
+            }
         }
-        if (bej && (isNaN(parseInt(numarBejInput.value)) || parseInt(numarBejInput.value) < 1)) {
-             return displayError("Te rog introdu un număr valid de dosare BEJ (minim 1).", "numarBej");
+        if (bej) {
+            if (soldTotalBejInput.value.trim() !== '') {
+                const parsedSold = parseFloat(soldTotalBejInput.value);
+                if (isNaN(parsedSold) || parsedSold < 0) { return displayError("Soldul BEJ introdus trebuie să fie un număr valid (>= 0).", "soldTotalBejInput"); }
+                soldTotalBej = parsedSold;
+            }
         }
-        // Validare sume integrale daca sunt vizibile/relevante
-        if (anaf && anafIntegral && (isNaN(sumaIntegralaAnaf) || sumaIntegralaAnaf <= 0)) {
-             return displayError("Te rog introdu o sumă validă necesară pentru ANAF.", "sumaIntegralAnafInput");
-        }
-        if (primarie && primarieIntegral && (isNaN(sumaIntegralaPrimarie) || sumaIntegralaPrimarie <= 0)) {
-             return displayError("Te rog introdu o sumă validă necesară pentru Primărie.", "sumaIntegralPrimarieInput");
-        }
+        // --- Sfarsit Citire si Validare Solduri ---
+
+        // --- Restul Validarilor ---
+        if (isNaN(salariu) || salariu <= 0) { return displayError("Te rog introdu o sumă validă (> 0) pentru salariul net lunar.", "salariu"); }
+        if (aplicaRegulaSpecialaSalMin && (isNaN(salariuMinim) || salariuMinim <= 0)) { return displayError("Te rog introdu o valoare validă (> 0) pentru salariul minim net pe economie.", "salariuMinimInput"); }
+        // Validarea pentru numarBej e facuta mai sus la citire
+        // Validari pentru suma integrala eliminate
         // --- Sfarsit Validari ---
+
 
         // --- Calcul Plafon Maxim Retinut ---
         let { procent, explicatiePlafon } = determinaPlafonProcent({ anaf, primarie, bej, numarBej });
         let plafonRetinereMaximProcent = procent;
         let bazaCalculProcent = salariu;
         let explicatieRegulaSpeciala = "";
-        if (plafonRetinereMaximProcent > 0 && aplicaRegulaSpecialaSalMin) {
-            bazaCalculProcent = salariu / 2;
-            explicatieRegulaSpeciala = ` Aplicând regula specială, procentul (${(plafonRetinereMaximProcent*100).toFixed(1)}%) se aplică la jumătate din salariul introdus (${bazaCalculProcent.toFixed(2)} RON).`;
-        } else if (plafonRetinereMaximProcent > 0) {
-             explicatieRegulaSpeciala = ` Procentul (${(plafonRetinereMaximProcent*100).toFixed(1)}%) se aplică la salariul întreg (${bazaCalculProcent.toFixed(2)} RON).`;
-        }
-        let sumaMaximaRetinutaInitial = bazaCalculProcent * plafonRetinereMaximProcent;
 
-        // --- Aplicare Protectie Salariu Minim ---
+        // Conform Art. 729 alin. (7) NCPC - referitor la veniturile din muncă sau alte drepturi asimilate
+        // Plafonul (1/3 sau 1/2) se aplică la venitul net. Protecția salariului minim (alin. 4 si 5) intervine DUPĂ calculul plafonului.
+        // Nu se aplică procentul la jumătate din salariu. Se calculeaza 1/3 sau 1/2 din NET, apoi se verifica sa ramana jumatate din minimul NET.
+        let sumaMaximaRetinutaCalculata = bazaCalculProcent * plafonRetinereMaximProcent;
+
+        if (plafonRetinereMaximProcent > 0) {
+             explicatieRegulaSpeciala = ` Plafonul (${(plafonRetinereMaximProcent*100).toFixed(1)}%) aplicat la salariul net (${salariu.toLocaleString('ro-RO',{minimumFractionDigits:2, maximumFractionDigits:2})} RON) permite o reținere maximă teoretică de ${sumaMaximaRetinutaCalculata.toLocaleString('ro-RO',{minimumFractionDigits:2, maximumFractionDigits:2})} RON.`;
+        }
+
+        // --- Aplicare Protectie Salariu Minim (dacă este cazul) ---
         let minimRamasGarantat = 0;
         let explicatieSalMin = "";
-        let sumaMaximaRetinutaFinala = sumaMaximaRetinutaInitial; // Incepem cu suma calculata initial
-        if (aplicaRegulaSpecialaSalMin && salariuMinim > 0) {
+        let sumaMaximaRetinutaFinala = sumaMaximaRetinutaCalculata; // Suma maximă ce poate fi reținută
+
+        if (aplicaRegulaSpecialaSalMin && salariuMinim > 0 && plafonRetinereMaximProcent > 0) {
+             // Garantat trebuie sa ramana JUMATATE din salariul minim NET pe economie
              minimRamasGarantat = salariuMinim / 2;
+             // Suma maximă ce poate fi RETINUTA este Salariu NET - Minim Garantat
              const sumaMaximaPermisaLegal = Math.max(0, salariu - minimRamasGarantat);
-             if (sumaMaximaRetinutaFinala > sumaMaximaPermisaLegal) {
-                 explicatieSalMin = ` Plafonul calculat (${sumaMaximaRetinutaFinala.toFixed(2)} RON) a fost redus la <span class="amount">${sumaMaximaPermisaLegal.toFixed(2)} RON</span> pentru a garanta rămanerea a cel puțin ${minimRamasGarantat.toFixed(2)} RON (1/2 din valoarea salariului minim introdusă).`;
-                 sumaMaximaRetinutaFinala = sumaMaximaPermisaLegal; // Aplicam limita
-             } else if (plafonRetinereMaximProcent > 0) {
-                 explicatieSalMin = ` Suma maximă reținută (${sumaMaximaRetinutaFinala.toFixed(2)} RON) respectă garantarea a cel puțin ${minimRamasGarantat.toFixed(2)} RON (1/2 din valoarea salariului minim introdusă).`;
+
+             // Comparam suma calculata prin procent (1/3 sau 1/2) cu suma maxima permisa pt a garanta minimul ramas
+             if (sumaMaximaRetinutaCalculata > sumaMaximaPermisaLegal) {
+                 explicatieSalMin = `<br><strong>Protecție Salariu Minim Aplicată:</strong> Plafonul teoretic (${sumaMaximaRetinutaCalculata.toLocaleString('ro-RO',{minimumFractionDigits:2, maximumFractionDigits:2})} RON) a fost redus la <span class="amount">${sumaMaximaPermisaLegal.toLocaleString('ro-RO',{minimumFractionDigits:2, maximumFractionDigits:2})} RON</span> pentru a garanta rămanerea a cel puțin ${minimRamasGarantat.toLocaleString('ro-RO',{minimumFractionDigits:2, maximumFractionDigits:2})} RON (1/2 din salariul minim net introdus).`;
+                 sumaMaximaRetinutaFinala = sumaMaximaPermisaLegal; // Corectam suma maxima retinuta
+             } else {
+                 explicatieSalMin = `<br><strong>Protecție Salariu Minim:</strong> Suma maximă reținută (${sumaMaximaRetinutaCalculata.toLocaleString('ro-RO',{minimumFractionDigits:2, maximumFractionDigits:2})} RON) respectă garantarea a cel puțin ${minimRamasGarantat.toLocaleString('ro-RO',{minimumFractionDigits:2, maximumFractionDigits:2})} RON.`;
+                 sumaMaximaRetinutaFinala = sumaMaximaRetinutaCalculata; // Ramane cea calculata initial
              }
+        } else if (plafonRetinereMaximProcent > 0) {
+             // Daca nu se aplica protectia, suma finala e cea calculata initial
+             sumaMaximaRetinutaFinala = sumaMaximaRetinutaCalculata;
+             explicatieSalMin = ""; // Fara explicatie suplimentara
         }
-        // --- Sfarsit Calcul Plafon ---
+        // --- Sfarsit Calcul Plafon & Protectie Salariu Minim ---
+
 
         // --- LOGICA DE DISTRIBUTIE ---
-        let deDistribuit = Math.max(0, sumaMaximaRetinutaFinala); // Suma maxima ce poate fi distribuita
+        // Suma totala disponibila pentru popriri in aceasta luna, tinand cont de toate plafoanele
+        let deDistribuit = Math.max(0, sumaMaximaRetinutaFinala);
+
         let alocatAnaf = 0, alocatPrimarie = 0, alocatBej = 0;
+        // Folosim soldurile introduse ca limită superioară, pe lângă suma de distribuit
+        let soldRamasAnaf = soldTotalAnaf;
+        let soldRamasPrimarie = soldTotalPrimarie;
+        let soldRamasBej = soldTotalBej;
         let detaliiDistributie = "";
-        let explicatieDistributie = ""; // Explicatie suplimentara pentru distributie
 
-        // 1. Distribuire catre ANAF
-        if (anaf && deDistribuit > 0.001) { // Folosim o marja mica
-            if (anafIntegral) {
-                alocatAnaf = Math.min(sumaIntegralaAnaf, deDistribuit);
-                explicatieDistributie += ` ANAF solicită ${sumaIntegralaAnaf.toFixed(2)} RON (integral). Se alocă ${alocatAnaf.toFixed(2)} RON.`;
-            } else {
-                alocatAnaf = deDistribuit; // ANAF ia tot ce e disponibil (prioritate simplificata)
-                explicatieDistributie += ` ANAF (neintegral) preia prioritar suma disponibilă: ${alocatAnaf.toFixed(2)} RON.`;
-            }
-            deDistribuit -= alocatAnaf;
-            detaliiDistributie += `<li>ANAF: <span class="amount">${alocatAnaf.toFixed(2)} RON</span>${anafIntegral ? ' (Integral)' : ''}</li>`;
+        // 1. Distribuire ANAF (Prioritate conform Cod Proc Fiscala, de obicei)
+        if (anaf && deDistribuit > 0.001 && soldRamasAnaf > 0.001) {
+             // Suma necesara ANAF este limitata superior de soldul ramas (daca e introdus)
+             let sumaNecesaraAnaf = soldRamasAnaf;
+             // Alocam minimul dintre cat e disponibil de distribuit si cat e necesar (limitat de sold)
+             let deAlocat = Math.min(deDistribuit, sumaNecesaraAnaf);
+             if (deAlocat < 0.001) deAlocat = 0; // Evitam sume infime
+
+             alocatAnaf = deAlocat;
+             deDistribuit -= alocatAnaf; // Scadem din totalul disponibil
+             // Actualizam soldul ramas ANAF doar daca a fost introdus initial un sold finit
+             if (isFinite(soldTotalAnaf)) { soldRamasAnaf = soldTotalAnaf - alocatAnaf; }
+
+             // Adaugam la detalii doar daca s-a alocat ceva semnificativ
+             if (alocatAnaf > 0.001) {
+                detaliiDistributie += `<li>ANAF: <span class="amount">${alocatAnaf.toLocaleString('ro-RO',{minimumFractionDigits:2, maximumFractionDigits:2})} RON</span> (Sold rămas estimat: ${isFinite(soldRamasAnaf) ? soldRamasAnaf.toLocaleString('ro-RO',{minimumFractionDigits:2, maximumFractionDigits:2}) : 'N/A'} RON)</li>`;
+             }
         }
 
-        // 2. Distribuire catre Primarie (daca a mai ramas)
-        if (primarie && deDistribuit > 0.001) {
-             if (primarieIntegral) {
-                alocatPrimarie = Math.min(sumaIntegralaPrimarie, deDistribuit);
-                explicatieDistributie += ` Primăria solicită ${sumaIntegralaPrimarie.toFixed(2)} RON (integral). Se alocă ${alocatPrimarie.toFixed(2)} RON din rest.`;
-            } else {
-                alocatPrimarie = deDistribuit; // Primaria ia restul (prioritate dupa ANAF)
-                 explicatieDistributie += ` Primăria (neintegral) preia restul sumei disponibile: ${alocatPrimarie.toFixed(2)} RON.`;
-            }
-            deDistribuit -= alocatPrimarie;
-            detaliiDistributie += `<li>Primărie: <span class="amount">${alocatPrimarie.toFixed(2)} RON</span>${primarieIntegral ? ' (Integral)' : ''}</li>`;
+        // 2. Distribuire Primarie
+        if (primarie && deDistribuit > 0.001 && soldRamasPrimarie > 0.001) {
+             let sumaNecesaraPrimarie = soldRamasPrimarie;
+             let deAlocat = Math.min(deDistribuit, sumaNecesaraPrimarie);
+              if (deAlocat < 0.001) deAlocat = 0;
+
+             alocatPrimarie = deAlocat;
+             deDistribuit -= alocatPrimarie;
+             if (isFinite(soldTotalPrimarie)) { soldRamasPrimarie = soldTotalPrimarie - alocatPrimarie; }
+
+             if (alocatPrimarie > 0.001) {
+                detaliiDistributie += `<li>Primărie: <span class="amount">${alocatPrimarie.toLocaleString('ro-RO',{minimumFractionDigits:2, maximumFractionDigits:2})} RON</span> (Sold rămas estimat: ${isFinite(soldRamasPrimarie) ? soldRamasPrimarie.toLocaleString('ro-RO',{minimumFractionDigits:2, maximumFractionDigits:2}) : 'N/A'} RON)</li>`;
+             }
         }
 
-        // 3. Distribuire catre BEJ (daca a mai ramas)
-         if (bej && deDistribuit > 0.001) {
-            alocatBej = deDistribuit; // BEJ ia tot ce a mai ramas
-            const perDosar = (numarBej > 0) ? (alocatBej / numarBej).toFixed(2) : "N/A";
-             explicatieDistributie += ` BEJ preia restul de ${alocatBej.toFixed(2)} RON, împărțit la ${numarBej} dosar(e).`;
-             detaliiDistributie += `<li>BEJ: <span class="amount">${alocatBej.toFixed(2)} RON</span> (${perDosar} RON/dosar)</li>`;
-             deDistribuit = 0; // Ne asiguram ca s-a terminat
-         }
+        // 3. Distribuire BEJ
+        if (bej && deDistribuit > 0.001 && soldRamasBej > 0.001) {
+             // Pentru BEJ, nu avem "suma integrala", alocam ce a mai ramas disponibil, limitat de sold
+             let sumaNecesaraBej = soldRamasBej;
+             let deAlocat = Math.min(deDistribuit, sumaNecesaraBej);
+             if (deAlocat < 0.001) deAlocat = 0;
+
+             alocatBej = deAlocat;
+             deDistribuit -= alocatBej; // Teoretic, deDistribuit ar trebui sa ajunga la 0 aici
+             const perDosar = (numarBej > 0 && alocatBej > 0) ? (alocatBej / numarBej) : 0;
+             if (isFinite(soldTotalBej)) { soldRamasBej = soldTotalBej - alocatBej; }
+
+             if (alocatBej > 0.001) {
+                detaliiDistributie += `<li>BEJ: <span class="amount">${alocatBej.toLocaleString('ro-RO',{minimumFractionDigits:2, maximumFractionDigits:2})} RON</span> ${numarBej > 1 ? '('+ perDosar.toLocaleString('ro-RO',{minimumFractionDigits:2, maximumFractionDigits:2}) +' RON/dosar)' : ''} (Sold total BEJ rămas estimat: ${isFinite(soldRamasBej) ? soldRamasBej.toLocaleString('ro-RO',{minimumFractionDigits:2, maximumFractionDigits:2}) : 'N/A'} RON)</li>`;
+             }
+        }
+        // --- Sfarsit Distributie ---
+
 
         // --- Calcul Final ---
-        // Suma efectiv retinuta este suma alocarilor facute
         let sumaRetinutaEfectiv = alocatAnaf + alocatPrimarie + alocatBej;
-        // Suma ramasa clientului se calculeaza pe baza sumei efectiv retinute
+        // Corectie finala pentru erori de rotunjire
+        if (Math.abs(sumaRetinutaEfectiv) < 0.001) sumaRetinutaEfectiv = 0;
         let sumaRamasaClientului = salariu - sumaRetinutaEfectiv;
 
         // Construim explicatia finala
         let explicatie = explicatiePlafon + explicatieRegulaSpeciala + explicatieSalMin;
         if (detaliiDistributie) {
             explicatie += "<br><strong>Distribuția sumei reținute:</strong><ul>" + detaliiDistributie + "</ul>";
-        } else if (plafonRetinereMaximProcent > 0 && sumaRetinutaEfectiv < 0.01) {
-            explicatie += " Suma efectiv reținută este 0.00 RON.";
-        } else if (plafonRetinereMaximProcent == 0){
+        } else if (procent > 0 && sumaRetinutaEfectiv < 0.01) {
+             // Daca exista plafon dar nu s-a retinut nimic (ex: datorii 0 sau salariu sub minim garantat)
+             if (!explicatie.includes("redus la")) { // Daca nu a fost deja explicat de protectia sal min
+                 explicatie += "<br>Suma efectiv reținută este 0.00 RON (posibil datorită soldurilor 0 sau protecției salariului minim).";
+             } else {
+                 explicatie += "<br>Suma efectiv reținută este 0.00 RON.";
+             }
+        } else if (procent == 0){
              explicatie = "Nicio poprire activă selectată, nu se reține nicio sumă.";
         }
 
+        // Formatare finala a sumelor
+        const sumaRetinutaFormatted = sumaRetinutaEfectiv.toLocaleString('ro-RO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const sumaRamasaFormatted = sumaRamasaClientului.toLocaleString('ro-RO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const minimGarantatFormatted = minimRamasGarantat.toLocaleString('ro-RO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+
        // Afisare finala
        displaySuccess(`
-         <p><strong>Rezultat Calcul Popriri:</strong></p>
-         <p>${explicatie || "Calcul efectuat."}</p>
-         <strong>Suma totală reținută (popriri):</strong> <span class="amount">${sumaRetinutaEfectiv.toFixed(2)} RON</span><br>
-         <strong>Suma rămasă în cont (după popriri):</strong> <span class="amount">${sumaRamasaClientului.toFixed(2)} RON</span>
-         ${aplicaRegulaSpecialaSalMin && minimRamasGarantat > 0 ? `<br><small>(Protecție salariu minim aplicată: trebuie să rămână cel puțin ${minimRamasGarantat.toFixed(2)} RON)</small>` : ''}
-         <br><small style="color:red;">Distribuția între creditori urmează o ordine simplificată (ANAF > Primărie > BEJ).</small>
+        <p><strong>Rezultat Calcul Popriri:</strong></p>
+        <p style="font-size: 0.9em;">${explicatie || "Calcul efectuat."}</p>
+        <hr style="border: none; border-top: 1px solid var(--border-color); margin: 1rem 0;">
+        <strong>Suma totală reținută (popriri):</strong> <span class="amount">${sumaRetinutaFormatted} RON</span><br>
+        <strong>Suma rămasă în cont (după popriri):</strong> <span class="amount">${sumaRamasaFormatted} RON</span>
+        ${aplicaRegulaSpecialaSalMin && minimRamasGarantat > 0 ? `<br><small style="color: green;">(Protecție salariu minim aplicată: garantat rămas ${minimGarantatFormatted} RON)</small>` : ''}
+        <br><small style="color: #e85d04; display: block; margin-top: 10px;"><b>Notă Importantă:</b> Ordinea de distribuție (ANAF > Primărie > BEJ).</small>
        `);
     }
 
@@ -658,30 +804,32 @@
     // === Functia reseteaza ===
     function reseteaza() {
       salariuInput.value = "";
-      salariuMinimInput.value = "2574"; // Actualizare cand se schimba legea
+      salariuMinimInput.value = ""; // GOLIM salariul minim, userul trebuie sa puna valoarea curenta
+      salariuMinimInput.placeholder = "Ex: 2574 (Verificați valoarea curentă!)"; // Resetam placeholder
       bifaSalariuMinimCheckbox.checked = false;
 
       anafPresentCheckbox.checked = false;
-      anafIntegralCheckbox.checked = false; // Resetare checkbox integral
-      sumaIntegralAnafInput.value = ''; // Resetare input suma anaf
+
+      soldTotalAnafInput.value = '';
 
       primariePresentCheckbox.checked = false;
-      primarieIntegralCheckbox.checked = false; // Resetare checkbox integral
-      sumaIntegralPrimarieInput.value = ''; // Resetare input suma primarie
+      
+      soldTotalPrimarieInput.value = '';
 
       bejPresentCheckbox.checked = false;
       numarBejInput.value = 1;
+      soldTotalBejInput.value = '';
 
-      toggleConditionalFields(); // Ascunde campurile conditionate
+      // Reaplica ascunderea/afisarea campurilor conform starii resetate
+      toggleConditionalFields();
 
-      // Resetare highlight inputuri
-      const inputsToReset = [salariuInput, salariuMinimInput, numarBejInput, sumaIntegralAnafInput, sumaIntegralPrimarieInput];
-      inputsToReset.forEach(input => { if (input && input.style) input.style.borderColor = ''; });
+      allInputs.forEach(input => { if (input) input.classList.remove('input-error'); }); // Reset highlight
 
       rezultatDiv.style.display = "none";
       rezultatDiv.classList.remove("error", "success");
+      rezultatDiv.innerHTML = ''; // Golim continutul rezultatului
     }
-    // ===================================
+    // ===================================================================
 
   </script>
 </body>
